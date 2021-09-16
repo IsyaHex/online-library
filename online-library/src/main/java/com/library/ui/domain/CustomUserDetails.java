@@ -8,6 +8,8 @@ import java.util.Collection;
 public class CustomUserDetails extends User{
     private final String name;
 
+    // Second check commit to check cherry-pick git command
+
     public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, String name) {
         super(username, password, authorities);
         this.name = name;

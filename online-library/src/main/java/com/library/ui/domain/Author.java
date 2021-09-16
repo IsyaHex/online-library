@@ -9,6 +9,7 @@ import java.util.Objects;
 @Table(name = "author")
 public class Author {
 
+    // One more commit to check cherry-pick git command
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "author_seq")
     @SequenceGenerator(name = "author_seq", sequenceName = "seq_author", allocationSize = 1)
