@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <title>Авторы</title>
+    <div th:replace="_fragments/header :: header-css"></div>
+</head>
+<body>
+
+<div th:replace="_fragments/header :: header"></div>
+
+
+<!--    Add New Author Modal Frame    -->
+<div class="modal fade" id="newAuthorModal" tabindex="-1" role="dialog" aria-labelledby="newAuthorModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newAuthorModalLabel">Добавить нового автора</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#" th:action="@{/authors/newAuthor}" th:object="${author}" method="post" id="formAddNew">
+                    <input type="hidden" id="inputId" th:field="*{id}">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon-AddAuthorName">Имя автора</span>
+                                <input type="text" class="form-control" id="inputAddAuthorName" placeholder="Введите имя автора"
+                                       aria-label="authorName" aria-describedby="basic-addon-authorName" th:field="*{authorName}"
+                                       onfocus="this.value=''" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon-AddGenre">Жанр</span>
+                                <select class="form-control" id="selectAddGenre" th:field="*{genre}">
+                                    <option value="0">Выберите жанр</option>
+                                    <option th:each="genre : ${genresList}"
+                                            th:value="${genre.getGenre()}" th:text="${genre.name()}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon-AddBirthDate">Дата рождения</span>
+                                <input type="text" class="form-control" id="inputAddBirthDate" placeholder="Введите дату рождения"
+                                       aria-label="name" aria-describedby="basic-addon-birthDate" th:field="*{birthDate}"
+                                       onfocus="this.value=''" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon-AddAuthorsQuote">Цитата от Автора</span>
+                                <input type="text" class="form-control" id="inputAddAuthorsQuote" placeholder="Введите цитату автора"
+                                       aria-label="name" aria-describedby="basic-addon-AddAuthorsQuote" th:field="*{authorsQuote}"
+                                       onfocus="this.value=''" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon-AddAboutAuthor">Об авторе</span>
+                                <textarea class="form-control" id="inputAddAboutAuthor" th:field="*{aboutAuthor}"
+                                          placeholder="Введите информацию об авторе" onfocus="this.value=''"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary" id="btnSubmit" name="addAuthor">Сохранить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    Author Details Modal Frame    -->
+<div class="modal fade" id="authorModal" tabindex="-1" role="dialog" aria-labelledby="authorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="authorModalLabel">Детали автора</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#"  method="get" id="bookForm">
+                    <input type="hidden" id="bookId">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="identity">Идентификатор Автора</span>
+                                <input type="text" class="form-control" aria-label="identity"
+                                       aria-describedby="sender" id="inputAuthorId" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="authorName">Имя автора</span>
+                                <input type="text" class="form-control" aria-label="name"
+                                       aria-describedby="name" id="inputAuthorName" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="genre">Жанр</span>
+                                <input type="text" class="form-control" id="inputGenre" aria-label="genre"
+                                       aria-describedby="genre" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="birthDate">Дата рождения</span>
+                                <input type="text" class="form-control" id="inputBirthDate" aria-label="pageCount"
+                                       aria-describedby="pageCount" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="authorsQuote">Цитата от Автора</span>
+                                <input type="text" class="form-control" id="inputAuthorsQuote" aria-label="authorsQuote"
+                                       aria-describedby="authorsQuote" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="aboutAuthor">Об авторе</span>
+                                <textarea class="form-control" id="inputAboutAuthor" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col mt-5 mb-5">
+            <table id="authors" class="table row-border table-responsive nowrap dt-colored-white-bg"
+                   style="width: 100%">
+                <div class="form-group row" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="col-sm-3">
+                        <button id="addNewAuthor" class="font-weight-bold btn btn-primary" type="button">
+                            <i class="fa fa-user-circle"></i> Добавить автора</button>
+                    </div>
+                </div>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Имя автора</th>
+<!--                    <th>Жанр(ы)</th>-->
+                    <th>Жанр</th>
+                    <th>Дата рождения</th>
+                    <th>Цитата от автора</th>
+                    <th>Об авторе</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="_fragments/footer :: footer"></div>
+
+    <script>
+        $(document).ready(function () {
+
+        $('#addNewAuthor').click(function () {
+            $('#newAuthorModal').modal('show');
+        });
+
+        var table = $('#authors').DataTable({
+            serverSide: false,
+            dom: 'Bfrtip',
+            ajax: {
+                url: '/ajax/authors',
+                type: "POST",
+                dataSrc: ''
+        },
+        columns: [
+            {"data": "id", "width": "5%", "className": "text-primary", orderable: true, searchable: true},
+            {"data": "authorName", "width": "15%", orderable: true, searchable: true},
+            {"data": "genre", "width": "10%", orderable: true, searchable: true},
+            {"data": "birthDate", "width": "10%", orderable: true, searchable: true},
+            {"data": "authorsQuote", "width": "10%", orderable: true, searchable: true},
+            {"data": "aboutAuthor", "width": "9%", orderable: true, searchable: true},
+        ],
+        buttons: []
+        // bServerSide: true
+    });
+        table.on('click', 'tr', function() {
+            var data = table.row($(this).closest('tr')).data();
+            $('#inputAuthorId').val(data['id'])
+            $('#inputAuthorName').val(data['authorName'])
+            $('#inputGenre').val(data['genre'])
+            $('#inputBirthDate').val(data['birthDate'])
+            $('#inputAuthorsQuote').val(data['authorsQuote'])
+            $('#inputAboutAuthor').val(data['aboutAuthor'])
+            $('#authorModal').modal('show');
+
+        });
+    });
+</script>
+</body>
+</html>

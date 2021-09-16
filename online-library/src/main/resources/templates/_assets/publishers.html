@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <title>Издатели</title>
+    <div th:replace="_fragments/header :: header-css"></div>
+</head>
+<body>
+
+<div th:replace="_fragments/header :: header"></div>
+
+<!--    Publisher Details Modal Frame    -->
+<div class="modal fade" id="publisherModal" tabindex="-1" role="dialog" aria-labelledby="authorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="authorModalLabel">Детали издателя</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#"  method="get" id="bookForm">
+                    <input type="hidden" id="bookId">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="identity">Идентификатор Издателя</span>
+                                <input type="text" class="form-control" aria-label="identity"
+                                       aria-describedby="sender" id="inputId" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="publisherName">Издатель</span>
+                                <input type="text" class="form-control" aria-label="name"
+                                       aria-describedby="name" id="inputPublisherName" readonly>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="location">Расположение</span>
+                                <input type="text" class="form-control" id="inputLocation" aria-label="genre"
+                                       aria-describedby="location" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="languages">Языки перевода</span>
+                                <input type="text" class="form-control" id="inputLanguages" aria-label="pageCount"
+                                       aria-describedby="languages" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="quantity">Количество книг в наличии</span>
+                                <input type="text" class="form-control" id="inputQuantity" aria-label="authorsQuote"
+                                       aria-describedby="quantity" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="price">Средняя цена за книгу</span>
+                                <input type="text" class="form-control" id="inputPrice" aria-label="authorsQuote"
+                                       aria-describedby="quantity" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="aboutPublisher">Об издателе</span>
+                                <textarea class="form-control" id="inputAboutPublisher" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col mt-5 mb-5">
+            <table id="publishers" class="table row-border table-responsive nowrap dt-colored-white-bg"
+                   style="width: 100%">
+                <div class="form-group row" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="col-sm-3">
+                        <button id="addNewPublisher" class="font-weight-bold btn btn-primary" type="button">
+                            <i class="fa fa-university"></i> Добавить издателя</button>
+                    </div>
+                </div>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Издатель</th>
+                    <th>Расположение</th>
+                    <th>Языки перевода</th>
+                    <th>Количество книг в наличии</th>
+                    <th>Средняя цена</th>
+                    <th>Об издателе</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="_fragments/footer :: footer"></div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#addNewPublisher').click(function () {
+            $('#newPublisherModal').modal('show');
+        });
+
+        var table = $('#publishers').DataTable({
+            serverSide: false,
+            dom: 'Bfrtip',
+            ajax: {
+                url: '/ajax/publishers',
+                type: "POST",
+                dataSrc: ''
+            },
+            columns: [
+                {"data": "id", "width": "5%", "className": "text-primary", orderable: true, searchable: true},
+                {"data": "publisherName", "width": "15%", orderable: true, searchable: true},
+                {"data": "location", "width": "10%", orderable: true, searchable: true},
+                {"data": "translatedLanguages", "width": "10%", orderable: true, searchable: true},
+                {"data": "publishedQuantity", "width": "10%", orderable: true, searchable: true},
+                {"data": "avgPrice", "width": "10%", orderable: true, searchable: true},
+                {"data": "about", "width": "10%", orderable: false, searchable: true},
+            ],
+            buttons: []
+            // bServerSide: true
+        });
+        table.on('click', 'tr', function() {
+            var data = table.row($(this).closest('tr')).data();
+            $('#inputId').val(data['id'])
+            $('#inputPublisherName').val(data['publisherName'])
+            $('#inputLocation').val(data['location'])
+            $('#inputLanguages').val(data['translatedLanguages'])
+            $('#inputQuantity').val(data['publishedQuantity'])
+            $('#inputPrice').val(data['avgPrice'])
+            $('#inputAboutPublisher').val(data['about'])
+            $('#publisherModal').modal('show');
+
+        });
+    });
+</script>
+</body>
+</html>

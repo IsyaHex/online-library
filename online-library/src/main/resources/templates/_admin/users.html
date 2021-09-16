@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <title>Пользователи</title>
+    <div th:replace="_fragments/header :: header-css"></div>
+</head>
+<body>
+
+
+<div th:replace="_fragments/header :: header"></div>
+
+<!--    Add New User Modal Frame   -->
+<div class="modal fade" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="newUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUserModalLabel">Создать нового пользователя</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#"  th:action="@{/users/newUser}" th:object="${user}" method="post" id="userForm">
+                    <input type="hidden" id="userInputId" th:field="*{id}">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="basic-addon-username">Логин</span>
+                                <input type="text" class="form-control" placeholder="Введите логин" aria-label="username"
+                                       aria-describedby="basic-addon-username" id="inputUsername" th:field="*{username}"
+                                       onfocus="this.value=''" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="basic-addon-password">Пароль</span>
+                                <input type="password" class="form-control" id="inputPassword" placeholder="Введите пароль" aria-label="password"
+                                       aria-describedby="basic-addon-password" th:field="*{password}"
+                                       onfocus="this.value=''" required>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group row">
+                        <label for="inputPassword" class="col-sm-4 col-form-label">Подтвердите пароль</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="inputPasswordVerify" th:field="*{password}"
+                                   onfocus="this.value=''" required>
+                        </div>
+                    </div>-->
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="name">Пользователь</span>
+                                <input type="text" class="form-control" id="inputPersonName" placeholder="Введите имя пользователя" aria-label="password"
+                                       aria-describedby="basic-addon-password" th:field="*{name}"
+                                       onfocus="this.value=''" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon-role">Роль</span>
+                                <select class="form-control" aria-label=".form-select-sm example"
+                                        id="selectRole" th:field="*{role}">
+                                    <option value="0">Выберите роль пользователя</option>
+                                    <option th:each="role: ${roles}" th:value="${role.id}"
+                                            th:text="${role.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="submit" class="btn btn-primary" id="btnSubmitUser" name="addUser">Сохранить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-lg-8 mt-5 mb-5">
+            <table id="users" class="table row-border table-responsive nowrap dt-colored-white-bg"
+                   style="width: 100%">
+                <div class="form-group row" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="col-sm-3">
+                        <button id="addNewUser" class="font-weight-bold btn btn-primary" type="button">
+                            <i class="fa fa-user"></i> Добавить пользователя</button>
+                    </div>
+                </div>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Логин</th>
+                    <th>Пользователь</th>
+                    <th>Дата создания</th>
+                    <th>Роль</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="_fragments/footer :: footer"></div>
+    <script>
+        $(document).ready(function () {
+
+            $('#addNewUser').click(function () {
+                $('#newUserModal').modal('show');
+            });
+
+            var table = $('#users').DataTable({
+                serverSide: false,
+                dom: 'Bfrtip',
+                ajax: {
+                    url: '/ajax/users',
+                    type: "POST",
+                    dataSrc: ''
+                },
+                columns: [
+                    {"data": "id", "width": "10%", "className": "font-weight-bold text-primary", orderable: true, searchable: false},
+                    {"data": "username", "width": "20%", orderable: false, searchable: true},
+                    {"data": "name", "width": "25%", orderable: false, searchable: true},
+                    {"data": "createDate", "width": "25%", orderable: false, searchable: false},
+                    {"data": "role.name", "width": "20%", orderable: true, searchable: false},
+                ],
+                buttons: []
+                // bServerSide: true
+            });
+
+        });
+    </script>
+</body>
+</html>

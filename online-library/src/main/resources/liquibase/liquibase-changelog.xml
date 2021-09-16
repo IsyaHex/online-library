@@ -1,0 +1,29 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <include file="liquibase/changelog/books/CreateTable.xml"/>
+    <include file="liquibase/changelog/author/CreateTable.xml"/>
+    <include file="liquibase/changelog/books/CreateTable.xml"/>
+    <include file="liquibase/changelog/publisher/CreateTable.xml"/>
+    <include file="liquibase/changelog/ui_users/CreateTable.xml"/>
+    <include file="liquibase/changelog/ui_users_roles/CreateTable.xml"/>
+
+    <include file="liquibase/changelog/books/Sequence/CreateSequence.xml"/>
+    <include file="liquibase/changelog/books/changes/11092021-AddConstraint.xml"/>
+    <include file="liquibase/changelog/author/Sequence/CreateSequence.xml"/>
+    <include file="liquibase/changelog/publisher/Sequence/CreateSequence.xml"/>
+    <include file="liquibase/changelog/ui_users/11092021-AddColumn.xml"/>
+    <include file="liquibase/changelog/ui_users/Sequence/CreateSequence.xml"/>
+    <include file="liquibase/changelog/ui_users/ModifyColumn/11092021-Add_Not_Null_Constraint_Role.xml"/>
+    <include file="liquibase/changelog/ui_users/ModifyColumn/11092021-Add_Users_Roles_Constraint.xml"/>
+    <include file="liquibase/changelog/ui_users_roles/Sequence/CreateSequence.xml"/>
+
+
+</databaseChangeLog>
+
+
+
+

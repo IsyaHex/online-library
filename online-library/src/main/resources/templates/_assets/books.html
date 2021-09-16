@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <title>Книги</title>
+    <div th:replace="_fragments/header :: header-css"></div>
+</head>
+<body>
+
+<div th:replace="_fragments/header :: header"></div>
+
+
+<div class="container-fluid" th:fragment="content">
+
+    <div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookModalLabel">Детали книги</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#"  method="get" id="bookForm">
+                        <input type="hidden" id="bookId">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="identity">Идентификатор Книги</span>
+                                    <input type="text" class="form-control" aria-label="identity"
+                                           aria-describedby="sender" id="inputId" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="name">Наименование книги</span>
+                                    <input type="text" class="form-control" aria-label="name"
+                                           aria-describedby="name" id="inputName" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="authorName">Имя автора</span>
+                                    <input type="text" class="form-control" aria-label="name"
+                                           aria-describedby="name" id="inputAuthorName" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="genre">Жанр</span>
+                                    <input type="text" class="form-control" id="inputGenre" aria-label="genre"
+                                           aria-describedby="genre" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="pageCount">Количество страниц</span>
+                                    <input type="text" class="form-control" id="inputPageCount" aria-label="pageCount"
+                                           aria-describedby="pageCount" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="quantity">Количество доступных книг</span>
+                                    <input type="text" class="form-control" id="inputQuantity" aria-label="quantity"
+                                           aria-describedby="quantity" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="price">Цена ($)</span>
+                                    <input type="text" class="form-control" id="inputPrice" aria-label="price"
+                                           aria-describedby="price" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="languages">Языки</span>
+                                    <input type="text" class="form-control" id="inputLanguages" aria-label="languages"
+                                           aria-describedby="languages" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="authorsQuote">От Автора</span>
+                                    <input type="text" class="form-control" id="inputAuthorsQuote" aria-label="authorsQuote"
+                                           aria-describedby="authorsQuote" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="publishedYear">Дата издания</span>
+                                    <input type="text" class="form-control" id="inputPublishedYear" aria-label="publishedYear"
+                                           aria-describedby="publishedYear" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="publisher">Издатель</span>
+                                    <input type="text" class="form-control" id="inputPublisher" aria-label="publisher"
+                                           aria-describedby="publisher" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="description">Описание книги</span>
+                                    <textarea class="form-control" id="inputDescription" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="newBookModal" tabindex="-1" role="dialog" aria-labelledby="addNewBookModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addNewBookModalLabel">Добавить книгу</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" th:action="@{/books/newBook}" th:object="${book}" method="post" id="form">
+                        <input type="hidden" id="inputBookId" th:field="*{id}">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon-title">Наименование</span>
+                                    <input type="text" class="form-control" id="inputAddName" placeholder="Введите наименование книги"
+                                           aria-label="bookTitle" aria-describedby="basic-addon-bookName" th:field="*{bookTitle}"
+                                           onfocus="this.value=''" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon-authorName">Имя автора</span>
+                                    <select class="form-control" id="inputAddAuthorName" th:field="*{author}">
+                                        <option value="0">Выберите автора</option>
+                                        <option th:each="author : ${authorsList}"
+                                                th:value="${author.id}" th:text="${author.authorName}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon-genre">Жанр</span>
+<!--                                    <select class="form-control" multiple id="inputAddGenre" th:field="*{genre}">-->
+                                    <select class="form-control" id="inputAddGenre" th:field="*{genre}">
+                                        <option value="0">Выберите жанр</option>
+                                        <option th:each="genre : ${genresList}" th:value="${genre.getGenre()}"
+                                                th:text="${genre.name()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon-pageCount">Количество страниц</span>
+                                    <input type="number" class="form-control" id="inputAddPageCount" placeholder="Введите количество страниц"
+                                           aria-label="pageCount" aria-describedby="basic-addon-pageCount" th:field="*{pageCount}"
+                                           onfocus="this.value=''" required step="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon-quantity">Количество книг</span>
+                                    <input type="number" class="form-control" id="inputAddQuantity"
+                                           placeholder="Введите количество доступных книг"
+                                           aria-label="quantity" aria-describedby="basic-addon-quantity" th:field="*{quantity}"
+                                           onfocus="this.value=''" required step="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon-price">Цена ($)</span>
+                                    <input type="number" class="form-control" id="inputAddPrice"
+                                           placeholder="Введите цену за книгу"
+                                           aria-label="price" aria-describedby="basic-addon-price" th:field="*{price}"
+                                           onfocus="this.value=''" required step="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon-publishedYear">Дата издания</span>
+                                    <input type="number" class="form-control" id="inputAddPublishedYear"
+                                           placeholder="Введите дату первого издания"
+                                           aria-label="publishedYear" aria-describedby="basic-addon-publishedYear" th:field="*{publishedYear}"
+                                           onfocus="this.value=''" required step="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon-operationType"> Издатель</span>
+                                    <select class="form-control" id="selectOperationType" th:field="*{publisher}">
+                                        <option value="0">Выберите издателя</option>
+                                        <option th:each="publisher : ${publishersList}"
+                                                th:value="${publisher.id}" th:text="${publisher.publisherName}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="addDescription">Описание книги</span>
+                                    <textarea class="form-control" id="inputAddDescription" th:field="*{description}"
+                                              placeholder="Введите описание книги" onfocus="this.value=''"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary" id="btnSubmit" name="addBook">Сохранить</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col mt-5 mb-5">
+            <table id="books" class="table row-border table-responsive nowrap dt-colored-white-bg"
+                   style="width: 100%">
+                <div class="form-group row" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="col-sm-3">
+                        <button id="addNewBook" class="font-weight-bold btn btn-primary" type="button">
+                            <i class="fa fa-book-open"></i> Добавить книгу</button>
+                    </div>
+                </div>
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Наименование книги</th>
+                    <th>Имя автора</th>
+                    <th>Жанр</th>
+                    <th>Количество страниц</th>
+                    <th>Количество доступных книг</th>
+                    <th>Цена ($)</th>
+                    <th>Языки</th>
+                    <th>От автора</th>
+                    <th>Дата издания</th>
+                    <th>Издатель</th>
+                    <th>Описание книги</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="_fragments/footer :: footer"></div>
+
+<div th:fragment="scripts">
+    <script>
+
+        $(document).ready(function () {
+
+            $('#addNewBook').click(function () {
+                $('#newBookModal').modal('show');
+            });
+
+            //     $('#inputAddGenre option').click(function() {
+            //     $(this).toggleClass('active')
+            // });
+
+            var table = $('#books').DataTable({
+                dom: 'Bfrtip',
+                serverSide: false,
+                ajax: {
+                    url: '/ajax/books',
+                    type: "POST",
+                    dataSrc: ''
+                },
+                columns: [
+                    {"data": "id", "width": "10%", "className": "text-primary font-weight-bold", orderable: true, searchable: true},
+                    {"data": "bookTitle", "width": "10%", orderable: true, searchable: true},
+                    {"data": "author.authorName", "width": "10%", orderable: true, searchable: true},
+                    {"data": "genre", "width": "15%", orderable: false, searchable: true,
+                        render: function (d) {
+                            switch (parseInt(d, 10)) {
+                                case(1):
+                                    return '<a class="text-primary font-weight-bold">' + 'Literary Fiction' + '</a>'
+                                case(2):
+                                    return '<a class="text-success font-weight-bold">' + 'Mystery' + '</a>'
+                                case(3):
+                                    return '<a class="text-danger font-weight-bold">' + 'Thriller' + '</a>'
+                                case(4):
+                                    return '<a class="text-danger font-weight-bold">' + 'Horror' + '</a>'
+                                case(5):
+                                    return '<a class="text-danger font-weight-bold">' + 'Historical' + '</a>'
+                                case(6):
+                                    return '<a class="text-danger font-weight-bold">' + 'Romance' + '</a>'
+                                case(7):
+                                    return '<a class="text-danger font-weight-bold">' + 'Western' + '</a>'
+                                case(8):
+                                    return '<a class="text-danger font-weight-bold">' + 'Bildungrosman' + '</a>'
+                                case(9):
+                                    return '<a class="text-danger font-weight-bold">' + 'Speculative' + '</a>'
+                                case(10):
+                                    return '<a class="text-danger font-weight-bold">' + 'Fiction' + '</a>'
+                                case(11):
+                                    return '<a class="text-danger font-weight-bold">' + 'Science Fiction' + '</a>'
+                                case(12):
+                                    return '<a class="text-danger font-weight-bold">' + 'Fantasy' + '</a>'
+                                case(13):
+                                    return '<a class="text-danger font-weight-bold">' + 'Magical Realism' + '</a>'
+                                case(14):
+                                    return '<a class="text-danger font-weight-bold">' + 'Realist Literature' + '</a>'
+                                default:
+                                    return '<a class="text-warning font-weight-bold">' + 'Unknown' + '</a>'
+                            }
+                        }
+                    },
+                    {"data": "pageCount", "width": "5%", orderable: true, searchable: true},
+                    {"data": "quantity", "width": "10%", orderable: true, searchable: false},
+                    // {"data": "price", "width": "5%", "className": "text-info", orderable: true, searchable: false},
+                    {"data": "price", "width": "5%", orderable: true, searchable: false},
+                    {"data": "publisher.translatedLanguages", "width": "5%", orderable: true, searchable: false},
+                    {"data": "author.authorsQuote", "width": "5%", orderable: true, searchable: false},
+                    {"data": "publishedYear", "width": "5%", orderable: true, searchable: false},
+                    {"data": "publisher.publisherName", "width": "5%", orderable: true, searchable: false},
+                    {"data": "description", "width": "5%", orderable: true, searchable: false},
+                ],
+                buttons: [
+                    {
+                        extend: 'copy',
+                        className: 'btn-light text-primary border-primary',
+                        titleAttr: 'Копировать',
+                        text: '<i class="fa fa-file"></i>',
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'btn-light text-primary border-primary',
+                        titleAttr: 'Экспорт',
+                        text: '<i class="fa fa-file-excel"></i>',
+                        exportOptions: {
+                            modifier: {
+                                //order : 'index',
+                                page: 'all',
+                                search: 'none'
+                            }
+                        }
+                    },
+                ]
+                // order: [
+                //     [0, "desc"]
+                // ],
+            });
+
+            // $("#books").on('click', 'tr', function() {
+            table.on('click', 'tr', function() {
+                var data = table.row($(this).closest('tr')).data();
+                $('#inputId').val(data['id'])
+                $('#inputName').val(data['bookTitle'])
+                $('#inputAuthorName').val(data['author']['authorName'])
+                $('#inputGenre').val(data['genre'])
+                $('#inputPageCount').val(data['pageCount'])
+                $('#inputQuantity').val(data['quantity'])
+                $('#inputPrice').val(data['price'])
+                $('#inputLanguages').val(data['publisher']['translatedLanguages'])
+                $('#inputAuthorsQuote').val(data['author']['authorsQuote'])
+                $('#inputPublishedYear').val(data['publishedYear'])
+                $('#inputPublisher').val(data['publisher']['publisherName'])
+                $('#inputDescription').val(data['description'])
+                $('#bookModal').modal('show');
+
+            });
+
+            // $(document).on('change', '#min,#max', function () {
+            //     table.ajax.reload();
+            // });
+
+        });
+    </script>
+</div>
+</body>
+</html>
