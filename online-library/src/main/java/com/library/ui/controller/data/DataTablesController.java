@@ -1,5 +1,6 @@
 package com.library.ui.controller.data;
 
+import com.library.ui.constant.GenresListEnum;
 import com.library.ui.domain.Author;
 import com.library.ui.domain.Book;
 import com.library.ui.domain.Publisher;
@@ -8,6 +9,8 @@ import com.library.ui.service.AuthorService;
 import com.library.ui.service.BookService;
 import com.library.ui.service.PublisherService;
 import com.library.ui.service.UserService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,5 +50,10 @@ public class DataTablesController {
     @PostMapping("/ajax/books")
     public List<Book> bookList() {
         return bookService.findAll();
+    }
+
+    @GetMapping("/ajax/books/{genre}")
+    public List<Book> bookListByGenre(@PathVariable Integer genre) {
+        return bookService.filterByGenre(genre);
     }
 }

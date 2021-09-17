@@ -1,15 +1,12 @@
 package com.library.ui.service.impl;
 
-import com.library.ui.constant.UserStateEnum;
+import com.library.ui.constant.GenresListEnum;
 import com.library.ui.domain.Book;
-import com.library.ui.dto.AuthorSaveDto;
 import com.library.ui.dto.BookSaveDto;
-import com.library.ui.dto.PublisherSaveDto;
 import com.library.ui.repository.BookRepository;
 import com.library.ui.service.BookService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -38,6 +35,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+
+    @Override
+    public List<Book> filterByGenre(Integer genre) {
+        return bookRepository.findAll(filterByCriteria(genre));
+    }
+
+    private Specification<Book> filterByCriteria(Integer genre) {
+        return ((root, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("genre"), genre));
     }
 
     private void addNewBook(BookSaveDto model, Book book) {

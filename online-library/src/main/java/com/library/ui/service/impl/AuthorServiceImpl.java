@@ -5,8 +5,6 @@ import com.library.ui.dto.AuthorSaveDto;
 import com.library.ui.repository.AuthorRepository;
 import com.library.ui.service.AuthorService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;

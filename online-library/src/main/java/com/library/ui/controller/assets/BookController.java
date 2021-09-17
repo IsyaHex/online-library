@@ -2,6 +2,7 @@ package com.library.ui.controller.assets;
 
 import com.library.ui.constant.GenresListEnum;
 import com.library.ui.constant.LanguagesListEnum;
+import com.library.ui.domain.Book;
 import com.library.ui.dto.BookSaveDto;
 import com.library.ui.service.AuthorService;
 import com.library.ui.service.BookService;
@@ -9,6 +10,8 @@ import com.library.ui.service.PublisherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/books")
@@ -46,5 +49,10 @@ public class BookController {
         model.addAttribute("genresList", GenresListEnum.values());
         return "redirect:" + url;
     }
+
+//    @PostMapping("/filter/{genre}")
+//    public List<Book> bookListByGenre(@PathVariable Integer genre) {
+//        return bookService.filterByGenre(genre);
+//    }
 
 }

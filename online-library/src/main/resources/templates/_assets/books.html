@@ -295,6 +295,21 @@
                 </div>
                 <thead>
                 <tr>
+                    <div class="form-group row" style="width: 35%">
+                        <div class="col-sm-6">
+                            <form action="#" th:object="${book}" method="post" id="formFilter">
+                                <select class="form-control" id="selectFilter" th:field="*{genre}">
+                                <option selected value="0">Выберите жанр</option>
+                                <option th:each="genre : ${genresList}" th:value="${genre.getGenre().intValue()}"
+                                        th:text="${genre.name()}"></option>
+                                </select>
+                            </form>
+                        </div>
+                        <div class="col-sm-3">
+                            <button id="filter-button" class="btn btn-outline-primary">Фильтровать</button>
+                        </div>
+                    </div>
+
                     <th>Id</th>
                     <th>Наименование книги</th>
                     <th>Имя автора</th>
@@ -325,9 +340,20 @@
                 $('#newBookModal').modal('show');
             });
 
-            //     $('#inputAddGenre option').click(function() {
-            //     $(this).toggleClass('active')
-            // });
+            //Filtering button
+            $('#filter-button').click(function () {
+                var value = $('#selectFilter').val();
+                // if(value == null || value == 0) {
+                // if(value == "default") {
+                //     table.ajax.url('ajax/books/').load();
+                //     table.ajax.reload();
+                // } else {
+                //     table.ajax.url('ajax/books/' + value).load();
+                //     table.ajax.reload();
+                // }
+                table.ajax.url('ajax/books/' + value).load();
+                table.ajax.reload();
+            });
 
             var table = $('#books').DataTable({
                 dom: 'Bfrtip',
