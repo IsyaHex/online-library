@@ -1,6 +1,5 @@
 package com.library.ui.service.impl;
 
-import com.library.ui.constant.GenresListEnum;
 import com.library.ui.domain.Book;
 import com.library.ui.dto.BookSaveDto;
 import com.library.ui.repository.BookRepository;
@@ -25,7 +24,6 @@ public class BookServiceImpl implements BookService {
     public Book save(BookSaveDto model) {
 //        Book book = bookRepository.findById(model.getId())
 //                .orElseThrow(() -> new IllegalArgumentException("Выбран несуществующий автор"));
-
 
         Book book = new Book();
         addNewBook(model, book);
