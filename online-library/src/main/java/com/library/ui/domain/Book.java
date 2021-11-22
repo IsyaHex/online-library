@@ -9,6 +9,7 @@ import java.util.Objects;
 @Table(name = "books")
 public class Book {
 
+    // Some comments added in Book DAO class
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "books_seq")
     @SequenceGenerator(name = "books_seq", sequenceName = "seq_books", allocationSize = 1)
